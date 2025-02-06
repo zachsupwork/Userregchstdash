@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up for ChatDash</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form id="chatdash-form">
+        <input type="text" id="name" name="name" placeholder="Full Name" required><br>
+        <input type="text" id="loginId" name="loginId" placeholder="Login ID" required><br>
+        <input type="email" id="email" name="email" placeholder="Email Address" required><br>
+        <input type="password" id="password" name="password" placeholder="Password" required><br>
+        <select id="language" name="language">
+            <option value="English">English</option>
+            <option value="Spanish">Spanish</option>
+        </select><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        document.getElementById("chatdash-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = {
+                name: document.getElementById("name").value,
+                loginId: document.getElementById("loginId").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                language: document.getElementById("language").value
+            };
+
+            fetch("https://api.chat-dash.com/v1/public/clients", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer CD.630826124fc9cc9f7ff43c18be95942d",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert("Registration successful!");
+                } else {
+                    alert("Registration failed. Please try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
